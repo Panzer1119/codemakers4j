@@ -16,31 +16,25 @@
 
 package de.codemakers.base.util.tough;
 
-import de.codemakers.base.logger.Logger;
-
 @FunctionalInterface
-public interface ToughPredicate<T> extends Tough<T, Boolean> {
+public interface ToughPredicate<T, E extends Exception> extends Tough<T, Boolean, E> {
     
-    Boolean test(T t) throws Exception;
+    Boolean test(T t) throws E;
     
-    default Boolean test(T t, ToughConsumer<Throwable> failure) {
+    default Boolean test(T t, ToughConsumer<E, Exception> failure) {
         return test(t, false, failure);
     }
     
-    default Boolean test(T t, boolean onError, ToughConsumer<Throwable> failure) {
+    default Boolean test(T t, boolean onError, ToughConsumer<E, Exception> failure) {
         try {
             return test(t);
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
             return onError;
         }
     }
     
-    default ToughPredicate<T> negate() {
+    default ToughPredicate<T, E> negate() {
         return (t) -> !test(t);
     }
     
@@ -53,7 +47,7 @@ public interface ToughPredicate<T> extends Tough<T, Boolean> {
     }
     
     @Override
-    default Boolean action(T t) throws Exception {
+    default Boolean action(T t) throws E {
         return test(t);
     }
     

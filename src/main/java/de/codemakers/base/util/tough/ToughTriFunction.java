@@ -16,21 +16,15 @@
 
 package de.codemakers.base.util.tough;
 
-import de.codemakers.base.logger.Logger;
-
-public interface ToughTriFunction<T, U, V, R> extends Tough<T, R> {
+public interface ToughTriFunction<T, U, V, R, E extends Exception> extends Tough<T, R, E> {
     
-    R apply(T t, U u, V v) throws Exception;
+    R apply(T t, U u, V v) throws E;
     
-    default R apply(T t, U u, V v, ToughConsumer<Throwable> failure) {
+    default R apply(T t, U u, V v, ToughConsumer<E, Exception> failure) {
         try {
             return apply(t, u, v);
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
             return null;
         }
     }
@@ -40,7 +34,7 @@ public interface ToughTriFunction<T, U, V, R> extends Tough<T, R> {
     }
     
     @Override
-    default R action(T t) throws Exception {
+    default R action(T t) throws E {
         return apply(t, null, null);
     }
     

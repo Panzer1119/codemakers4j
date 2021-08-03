@@ -16,22 +16,16 @@
 
 package de.codemakers.base.util.tough;
 
-import de.codemakers.base.logger.Logger;
-
 @FunctionalInterface
-public interface ToughSupplier<T> extends Tough<Void, T> {
+public interface ToughSupplier<T, E extends Exception> extends Tough<Void, T, E> {
     
-    T get() throws Exception;
+    T get() throws E;
     
-    default T get(ToughConsumer<Throwable> failure) {
+    default T get(ToughConsumer<E, Exception> failure) {
         try {
             return get();
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
             return null;
         }
     }
@@ -41,7 +35,7 @@ public interface ToughSupplier<T> extends Tough<Void, T> {
     }
     
     @Override
-    default T action(Void v) throws Exception {
+    default T action(Void v) throws E {
         return get();
     }
     

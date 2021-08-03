@@ -18,25 +18,29 @@ package de.codemakers.base.util.tough;
 
 import de.codemakers.base.logger.Logger;
 
-public interface Tough<T, R> {
+public interface Tough<T, R, E extends Exception> {
 
-    R action(T t) throws Exception;
+    R action(T t) throws E;
 
-    default R action(T t, ToughConsumer<Throwable> failure) {
+    default R action(T t, ToughConsumer<E, Exception> failure) {
         try {
             return action(t);
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
             return null;
         }
     }
 
     default R actionWithoutException(T t) {
         return action(t, null);
+    }
+    
+    default void handleException(Exception exception, ToughConsumer<E, Exception> failure) {
+        if (failure != null) {
+            failure.acceptWithoutException((E) exception);
+        } else {
+            Logger.handleError(exception);
+        }
     }
 
     boolean canConsume();

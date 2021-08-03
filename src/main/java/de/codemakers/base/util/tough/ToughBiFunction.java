@@ -16,22 +16,16 @@
 
 package de.codemakers.base.util.tough;
 
-import de.codemakers.base.logger.Logger;
-
 @FunctionalInterface
-public interface ToughBiFunction<T, U, R> extends Tough<T, R> {
+public interface ToughBiFunction<T, U, R, E extends Exception> extends Tough<T, R, E> {
     
-    R apply(T t, U u) throws Exception;
+    R apply(T t, U u) throws E;
     
-    default R apply(T t, U u, ToughConsumer<Throwable> failure) {
+    default R apply(T t, U u, ToughConsumer<E, Exception> failure) {
         try {
             return apply(t, u);
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
             return null;
         }
     }
@@ -41,7 +35,7 @@ public interface ToughBiFunction<T, U, R> extends Tough<T, R> {
     }
     
     @Override
-    default R action(T t) throws Exception {
+    default R action(T t) throws E {
         return apply(t, null);
     }
     

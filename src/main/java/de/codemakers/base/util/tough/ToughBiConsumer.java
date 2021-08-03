@@ -16,22 +16,16 @@
 
 package de.codemakers.base.util.tough;
 
-import de.codemakers.base.logger.Logger;
-
 @FunctionalInterface
-public interface ToughBiConsumer<T, U> extends Tough<T, Void> {
+public interface ToughBiConsumer<T, U, E extends Exception> extends Tough<T, Void, E> {
     
-    void accept(T t, U u) throws Exception;
+    void accept(T t, U u) throws E;
     
-    default void accept(T t, U u, ToughConsumer<Throwable> failure) {
+    default void accept(T t, U u, ToughConsumer<E, Exception> failure) {
         try {
             accept(t, u);
         } catch (Exception ex) {
-            if (failure != null) {
-                failure.acceptWithoutException(ex);
-            } else {
-                Logger.handleError(ex);
-            }
+            handleException(ex, failure);
         }
     }
     
@@ -40,7 +34,7 @@ public interface ToughBiConsumer<T, U> extends Tough<T, Void> {
     }
     
     @Override
-    default Void action(T t) throws Exception {
+    default Void action(T t) throws E {
         accept(t, null);
         return null;
     }
