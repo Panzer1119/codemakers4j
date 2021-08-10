@@ -1,2 +1,2 @@
-rootProject.name = 'CJP-Base'
+rootProject.name = 'cjp'
 include 'cjp-core'
