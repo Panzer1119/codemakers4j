@@ -18,7 +18,6 @@ package de.codemakers.base.os.functions.impl;
 
 import de.codemakers.base.os.OS;
 import de.codemakers.base.os.WindowsHelper;
-import de.codemakers.base.os.functions.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -18,7 +18,6 @@ package de.codemakers.security.entities;
 
 import de.codemakers.base.util.Require;
 import de.codemakers.base.util.interfaces.Copyable;
-import de.codemakers.security.interfaces.*;
 
 import java.util.Arrays;
 import java.util.Objects;

@@ -19,7 +19,6 @@ package de.codemakers.base.entities.results;
 import de.codemakers.base.util.Require;
 import de.codemakers.base.util.Returner;
 import de.codemakers.base.util.interfaces.Copyable;
-import de.codemakers.base.util.tough.*;
 import de.codemakers.io.SerializationUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
