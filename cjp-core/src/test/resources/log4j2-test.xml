@@ -1,0 +1,48 @@
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="log-path">PropertiesConfiguration</Property>
+    </Properties>
+    <CustomLevels>
+        <CustomLevel name="COMMAND" intLevel="340"/>
+        <CustomLevel name="INPUT" intLevel="350"/>
+        <CustomLevel name="FINE" intLevel="540"/>
+        <CustomLevel name="FINER" intLevel="550"/>
+        <CustomLevel name="FINEST" intLevel="560"/>
+    </CustomLevels>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <pattern>
+                    [%-5level][%20c{1}][%M] %-250msg[%l]%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <Console name="Console-Appender-Error" target="SYSTEM_ERR">
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>
+                    [%-5level][%20c{1}][%M] %-250msg[%l]%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <GraphicConsole name="Graphic-Console-Appender">
+            <PatternLayout>
+                <pattern>
+                    [%-5level][%20c{1}][%M] %-250msg[%l]%n
+                </pattern>>
+            </PatternLayout>
+        </GraphicConsole>
+    </Appenders>
+    <Loggers>
+        <Logger name="codemakers" level="debug" additivity="false">
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="Graphic-Console-Appender"/>
+        </Logger>
+        <Root level="all">
+            <AppenderRef ref="Console-Appender-Error" level="warn"/>
+            <AppenderRef ref="Console-Appender" level="info"/>
+            <AppenderRef ref="Graphic-Console-Appender"/>
+        </Root>
+    </Loggers>
+</Configuration>
