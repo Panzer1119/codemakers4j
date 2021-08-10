@@ -1,10 +1,10 @@
 ### Custom
 package.json
-test/
-temp/
-output/
-dist/
-.idea/
+/test/
+/temp/
+/output/
+/dist/
+/.idea/
 
 ### Gradle template
 .gradle
