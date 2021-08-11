@@ -29,17 +29,29 @@ jobs:
         uses: gradle/gradle-build-action@v1
         with:
           arguments: build
-      - name: Upload codemakers4j-core generated jars
+      - name: Upload codemakers4j-core generated libs
         uses: actions/upload-artifact@v2
         with:
-          name: codemakers4j-core
+          name: codemakers4j-core-libs
           path: ${{ github.workspace }}/codemakers4j-core/build/libs/
           retention-days: 1
-      - name: Upload codemakers4j-database generated jars
+      - name: Upload codemakers4j-core generated classes
         uses: actions/upload-artifact@v2
         with:
-          name: codemakers4j-database
+          name: codemakers4j-core-classes
+          path: ${{ github.workspace }}/codemakers4j-core/build/classes/
+          retention-days: 1
+      - name: Upload codemakers4j-database generated libs
+        uses: actions/upload-artifact@v2
+        with:
+          name: codemakers4j-database-libs
           path: ${{ github.workspace }}/codemakers4j-database/build/libs/
+          retention-days: 1
+      - name: Upload codemakers4j-database generated classes
+        uses: actions/upload-artifact@v2
+        with:
+          name: codemakers4j-database-classes
+          path: ${{ github.workspace }}/codemakers4j-database/build/classes/
           retention-days: 1
   Code-Analysis:
     needs: Build
@@ -54,16 +66,16 @@ jobs:
         with:
           java-version: 16
           distribution: 'adopt'
-      - name: Download codemakers4j-core generated jars
+      - name: Download codemakers4j-core generated classes
         uses: actions/download-artifact@v2
         with:
-          name: codemakers4j-core
-          path: ${{ github.workspace }}/codemakers4j-core/build/libs/
-      - name: Download codemakers4j-database generated jars
+          name: codemakers4j-core-classes
+          path: ${{ github.workspace }}/codemakers4j-core/build/classes/
+      - name: Download codemakers4j-database generated classes
         uses: actions/download-artifact@v2
         with:
-          name: codemakers4j-database
-          path: ${{ github.workspace }}/codemakers4j-database/build/libs/
+          name: codemakers4j-database-classes
+          path: ${{ github.workspace }}/codemakers4j-database/build/classes/
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -93,8 +105,16 @@ jobs:
         with:
           java-version: 16
           distribution: 'adopt'
-      - name: Download Artifact from Step Build
+      - name: Download codemakers4j-core generated libs
         uses: actions/download-artifact@v2
+        with:
+          name: codemakers4j-core-libs
+          path: ${{ github.workspace }}/codemakers4j-core/build/libs/
+      - name: Download codemakers4j-database generated libs
+        uses: actions/download-artifact@v2
+        with:
+          name: codemakers4j-database-libs
+          path: ${{ github.workspace }}/codemakers4j-database/build/libs/
       - name: Gradle run publishAll
         uses: gradle/gradle-build-action@v1
         with:
@@ -118,6 +138,6 @@ jobs:
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/libs/*.jar,dist/*.jar"
+          artifacts: "codemakers4j-core/build/libs/*.jar,codemakers4j-database/build/libs/*.jar,codemakers4j-core/dist/*.jar,codemakers4j-database/dist/*.jar"
           bodyFile: "CHANGELOG.md"
           token: ${{ secrets.GITHUB_TOKEN }}
