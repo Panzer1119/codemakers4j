@@ -75,3 +75,11 @@ subprojects {
     }
 
 }
+
+task publishAll() {
+}
+
+subprojects.forEach(subProject -> {
+    def publish = subProject.getTasks().findByName("publish")
+    publishAll.dependsOn(publish)
+})
