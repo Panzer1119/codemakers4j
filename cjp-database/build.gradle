@@ -42,7 +42,7 @@ publishing {
             }
             pom {
                 name = 'cjp-database'
-                description = 'Base Library of the CJP Library (Codemakers Java Plus)'
+                description = 'Database Library of the CJP Library (Codemakers Java Plus)'
                 url = 'https://github.com/Panzer1119/cjp-database'
                 licenses {
                     license {

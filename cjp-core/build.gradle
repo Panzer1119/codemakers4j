@@ -25,8 +25,8 @@ publishing {
                 }
             }
             pom {
-                name = 'cjp'
-                description = 'Base Library of the CJP Library (Codemakers Java Plus)'
+                name = 'cjp-core'
+                description = 'Core Library of the CJP Library (Codemakers Java Plus)'
                 url = 'https://github.com/Panzer1119/cjp'
                 licenses {
                     license {
