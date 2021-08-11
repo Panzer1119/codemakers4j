@@ -88,7 +88,7 @@ public class AdvancedFileInternTest {
                     .filter(AdvancedFile::isFile)
                     .forEach((advancedFile) -> System.out.println(new String(advancedFile.readBytesWithoutException())));
             System.out.println("########");
-            final AdvancedFile advancedFile_folder_3 = new AdvancedFile("../cjp/test/test_1");
+            final AdvancedFile advancedFile_folder_3 = new AdvancedFile("../codemakers4j/test/test_1");
             System.out.println("advancedFile_folder_3: " + advancedFile_folder_3);
             System.out.println("advancedFile_folder_3 exists: " + advancedFile_folder_3.exists());
             System.out.println("advancedFile_folder_3 listFiles: " + advancedFile_folder_3.listFiles());

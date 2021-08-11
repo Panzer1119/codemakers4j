@@ -30,7 +30,7 @@ public class CJP {
     
     private static final Logger logger = LogManager.getLogger();
     
-    public static final String PROJECT_NAME = "cjp";
+    public static final String PROJECT_NAME = "codemakers4j";
     public static final String VERSION = "0.16.14";
     
     private static final CJP CJP = createInstance();

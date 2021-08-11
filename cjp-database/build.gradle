@@ -3,7 +3,7 @@ version = '0.20.0'
 
 dependencies {
     // CJP
-    implementation project(":cjp-core")
+    implementation project(":codemakers4j-core")
     // Hibernate
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
     implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha8'
@@ -29,7 +29,7 @@ dependencies {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'cjp-database'
+            artifactId = 'codemakers4j-database'
             from components.java
             //artifact shadowJar
             versionMapping {
@@ -41,9 +41,9 @@ publishing {
                 }
             }
             pom {
-                name = 'cjp-database'
+                name = 'codemakers4j-database'
                 description = 'Database Library of the CJP Library (Codemakers Java Plus)'
-                url = 'https://github.com/Panzer1119/cjp-database'
+                url = 'https://github.com/Panzer1119/codemakers4j-database'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -63,7 +63,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Panzer1119/cjp-database")
+            url = uri("https://maven.pkg.github.com/Panzer1119/codemakers4j-database")
             credentials {
                 username = "Panzer1119"
                 password = System.getenv("GITHUB_TOKEN")

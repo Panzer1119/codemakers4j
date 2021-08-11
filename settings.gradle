@@ -1,3 +1,3 @@
-rootProject.name = 'cjp'
-include 'cjp-core'
-include 'cjp-database'
+rootProject.name = 'codemakers4j'
+include 'codemakers4j-core'
+include 'codemakers4j-database'

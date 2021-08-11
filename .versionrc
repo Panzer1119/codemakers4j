@@ -11,11 +11,11 @@
       "type": "gradle"
     },
     {
-      "filename": "cjp-core/build.gradle",
+      "filename": "codemakers4j-core/build.gradle",
       "type": "gradle"
     },
     {
-      "filename": "cjp-database/build.gradle",
+      "filename": "codemakers4j-database/build.gradle",
       "type": "gradle"
     },
     {

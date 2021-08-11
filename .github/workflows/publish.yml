@@ -35,8 +35,8 @@ jobs:
         with:
           keep: 5
           names: |
-            de.codemakers.cjp-core
-            de.codemakers.cjp-database
+            de.codemakers.codemakers4j-core
+            de.codemakers.codemakers4j-database
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:

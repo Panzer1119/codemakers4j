@@ -13,7 +13,7 @@ dependencies {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'cjp-core'
+            artifactId = 'codemakers4j-core'
             from components.java
             //artifact shadowJar
             versionMapping {
@@ -25,9 +25,9 @@ publishing {
                 }
             }
             pom {
-                name = 'cjp-core'
+                name = 'codemakers4j-core'
                 description = 'Core Library of the CJP Library (Codemakers Java Plus)'
-                url = 'https://github.com/Panzer1119/cjp'
+                url = 'https://github.com/Panzer1119/codemakers4j'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -47,7 +47,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Panzer1119/cjp")
+            url = uri("https://maven.pkg.github.com/Panzer1119/codemakers4j")
             credentials {
                 username = "Panzer1119"
                 password = System.getenv("GITHUB_TOKEN")
