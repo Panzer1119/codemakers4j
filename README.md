@@ -14,7 +14,7 @@
 
 [![Lines of Code](https://sonarqube.codemakers.de/api/project_badges/measure?project=de.codemakers%3Acjp&metric=ncloc)](https://sonarqube.codemakers.de/dashboard?id=de.codemakers%3Acjp)
 
-Base Library of the CJP Library (Codemakers Java Plus)
+CJP Library (Codemakers Java Plus)
 
 ## Developer Guide
 

@@ -223,18 +223,18 @@ All notable changes to this project will be documented in this file. See [standa
 
 * create FileUtil.java ([58f34c3](https://github.com/Panzer1119/cjp/commit/58f34c31fcc62707dd95c9bdc52d0fde4278bcbb))
 
-### [0.16.2](https://github.com/Panzer1119/CJP-Base/compare/v0.16.1...v0.16.2) (2021-08-03)
+### [0.16.2](https://github.com/Panzer1119/cjp/compare/v0.16.1...v0.16.2) (2021-08-03)
 
 
 ### Features
 
-* create ToughTriConsumer.java ([2754dc5](https://github.com/Panzer1119/CJP-Base/commit/2754dc581401ce882657d56c721724e415eb048a))
+* create ToughTriConsumer.java ([2754dc5](https://github.com/Panzer1119/cjp/commit/2754dc581401ce882657d56c721724e415eb048a))
 
-### [0.16.1](https://github.com/Panzer1119/CJP-Base/compare/v0.16.0...v0.16.1) (2021-08-03)
+### [0.16.1](https://github.com/Panzer1119/cjp/compare/v0.16.0...v0.16.1) (2021-08-03)
 
 ## 0.16.0 (2021-08-03)
 
 
 ### Bug Fixes
 
-* replace ClassFormatException with ClassCastException in Require.java ([45d1101](https://github.com/Panzer1119/CJP-Base/commit/45d1101becef998ba5e64231dd3ccc9c97332845))
+* replace ClassFormatException with ClassCastException in Require.java ([45d1101](https://github.com/Panzer1119/cjp/commit/45d1101becef998ba5e64231dd3ccc9c97332845))
