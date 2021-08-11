@@ -26,7 +26,7 @@ publishing {
             }
             pom {
                 name = 'codemakers4j-core'
-                description = 'Core Library of the CJP Library (Codemakers Java Plus)'
+                description = 'Core Part of the codemakers4j Library'
                 url = 'https://github.com/Panzer1119/codemakers4j'
                 licenses {
                     license {
