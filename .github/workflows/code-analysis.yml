@@ -1,0 +1,48 @@
+name: Code Analysis
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+
+jobs:
+  Code-Analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository completely
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up Java 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'adopt'
+      - name: Cache Gradle Packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Gradle run build
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: build
+      - name: Gradle run dependencyUpdates
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependency-check-report -DoutputDir=build/dependencyUpdates
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Gradle run sonarqube
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: sonarqube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}

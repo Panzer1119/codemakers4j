@@ -1,0 +1,54 @@
+name: Publish Packages and create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+      - name: Set up Java 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'adopt'
+      - name: Cache Gradle Packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Gradle run build
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: build
+      - name: Gradle run publishAll
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: publishAll
+        env:
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_URL_RELEASES: ${{ secrets.MAVEN_URL_RELEASES }}
+          MAVEN_URL_SNAPSHOTS: ${{ secrets.MAVEN_URL_SNAPSHOTS }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+      - name: Delete the oldest Packages on GitHub, but keep at least 5 Versions
+        uses: smartsquaregmbh/delete-old-packages@v0.3.1
+        with:
+          keep: 5
+          names: |
+            de.codemakers.codemakers4j-core
+            de.codemakers.codemakers4j-database
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "codemakers4j-core/build/libs/*.jar,codemakers4j-database/build/libs/*.jar,codemakers4j-core/dist/*.jar,codemakers4j-database/dist/*.jar"
+          bodyFile: "CHANGELOG.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
