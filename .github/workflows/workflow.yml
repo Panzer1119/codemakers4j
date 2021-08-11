@@ -12,10 +12,8 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the Repository completely
+      - name: Checkout the Repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up Java 16
         uses: actions/setup-java@v2
         with:
@@ -31,21 +29,41 @@ jobs:
         uses: gradle/gradle-build-action@v1
         with:
           arguments: build
-      - name: Gradle run shadowJar
-        uses: gradle/gradle-build-action@v1
-        with:
-          arguments: shadowJar
-      - name: Upload Artifact
+      - name: Upload codemakers4j-core generated jars
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ github.workspace }}
+          name: codemakers4j-core
+          path: ${{ github.workspace }}/codemakers4j-core/build/libs/
+          retention-days: 1
+      - name: Upload codemakers4j-database generated jars
+        uses: actions/upload-artifact@v2
+        with:
+          name: codemakers4j-database
+          path: ${{ github.workspace }}/codemakers4j-database/build/libs/
           retention-days: 1
   Code-Analysis:
     needs: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifact from Step Build
+      - name: Checkout the Repository completely
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up Java 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'adopt'
+      - name: Download codemakers4j-core generated jars
         uses: actions/download-artifact@v2
+        with:
+          name: codemakers4j-core
+          path: ${{ github.workspace }}/codemakers4j-core/build/libs/
+      - name: Download codemakers4j-database generated jars
+        uses: actions/download-artifact@v2
+        with:
+          name: codemakers4j-database
+          path: ${{ github.workspace }}/codemakers4j-database/build/libs/
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -64,10 +82,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
   Publish:
-    if: ${{ github.ref == 'refs/tags/v*.*.*' }}
+    if: startsWith(github.ref, 'refs/tags/')
     needs: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+      - name: Set up Java 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'adopt'
       - name: Download Artifact from Step Build
         uses: actions/download-artifact@v2
       - name: Gradle run publishAll
