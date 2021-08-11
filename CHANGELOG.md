@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.20.6](https://github.com/Panzer1119/codemakers4j/compare/v0.20.5...v0.20.6) (2021-08-11)
+
 ### [0.20.5](https://github.com/Panzer1119/codemakers4j/compare/v0.20.4...v0.20.5) (2021-08-11)
 
 ### [0.20.4](https://github.com/Panzer1119/codemakers4j/compare/v0.20.3...v0.20.4) (2021-08-11)

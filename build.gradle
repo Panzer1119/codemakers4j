@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'de.codemakers'
-version = '0.20.5'
+version = '0.20.6'
 
 subprojects {
 
