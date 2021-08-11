@@ -9,7 +9,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  Setup:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the Repository completely
@@ -21,10 +21,6 @@ jobs:
         with:
           java-version: 16
           distribution: 'adopt'
-  Build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Cache Gradle Packages
         uses: actions/cache@v1
         with:
@@ -39,10 +35,17 @@ jobs:
         uses: gradle/gradle-build-action@v1
         with:
           arguments: shadowJar
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ github.workspace }}
+          retention-days: 1
   Code-Analysis:
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Download Artifact from Step Build
+        uses: actions/download-artifact@v2
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -62,9 +65,11 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
   Publish:
     if: ${{ github.ref == 'refs/tags/v*.*.*' }}
-    needs: build
+    needs: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Download Artifact from Step Build
+        uses: actions/download-artifact@v2
       - name: Gradle run publishAll
         uses: gradle/gradle-build-action@v1
         with:
