@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.20.1](https://github.com/Panzer1119/codemakers4j/compare/v0.20.0...v0.20.1) (2021-08-11)
+
+
+### Bug Fixes
+
+* rename directories from cjp... to codemakers4j... ([d4c82ac](https://github.com/Panzer1119/codemakers4j/commit/d4c82ac1861acec6232d872f7f670a8d2be47a53))
+
 ## [0.20.0](https://github.com/Panzer1119/codemakers4j/compare/v0.16.14...v0.20.0) (2021-08-11)
 
 
