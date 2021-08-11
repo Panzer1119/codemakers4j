@@ -1,74 +1,10 @@
-plugins {
-    id 'java-library'
-    id "org.sonarqube"
-    id "com.github.johnrengelman.shadow"
-    id "com.github.ben-manes.versions"
-    id 'signing'
-    id 'maven-publish'
-}
-
-group 'de.codemakers'
-version = '0.16.14'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    // Logging
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
-    // Extending
-    // Apache
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
-    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
-    // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-    // Google
-    // https://mvnrepository.com/artifact/com.google.guava/guava
-    implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.7'
-    // Other
     // https://mvnrepository.com/artifact/com.j256.simplemagic/simplemagic
     implementation group: 'com.j256.simplemagic', name: 'simplemagic', version: '1.16'
     implementation "org.reflections:reflections:0.9.12"
     implementation 'net.openhft:zero-allocation-hashing:0.15'
     implementation group: 'org.lz4', name: 'lz4-java', version: '1.8.0'
     implementation 'at.favre.lib:hkdf:1.1.0'
-    // Testing
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0-M1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0-M1'
-}
-
-compileJava {
-    options.release = 16
-}
-
-test {
-    useJUnitPlatform()
-}
-
-shadowJar {
-    getDestinationDirectory().set(new File(projectDir, "./dist"))
-}
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }
 
 publishing {
@@ -128,9 +64,11 @@ publishing {
 }
 
 def hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
-if(hasSigningKey) {
+
+if (hasSigningKey) {
     sign(project)
 }
+
 void sign(Project project) {
     project.signing {
         required { project.gradle.taskGraph.hasTask("required") }
