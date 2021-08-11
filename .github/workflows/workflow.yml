@@ -1,0 +1,93 @@
+name: Workflow
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  Setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository completely
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up Java 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: 'adopt'
+  Build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Gradle Packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Gradle run build
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: build
+      - name: Gradle run shadowJar
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: shadowJar
+  Code-Analysis:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Gradle run dependencyUpdates
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: dependencyUpdates -Drevision=release -DoutputFormatter=html -DreportfileName=dependency-check-report -DoutputDir=build/dependencyUpdates
+      - name: Gradle run sonarqube
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: sonarqube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
+  Publish:
+    if: ${{ github.ref == 'refs/tags/v*.*.*' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gradle run publishAll
+        uses: gradle/gradle-build-action@v1
+        with:
+          arguments: publishAll
+        env:
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_URL_RELEASES: ${{ secrets.MAVEN_URL_RELEASES }}
+          MAVEN_URL_SNAPSHOTS: ${{ secrets.MAVEN_URL_SNAPSHOTS }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+      - name: Delete the oldest Packages on GitHub, but keep at least 5 Versions
+        uses: smartsquaregmbh/delete-old-packages@v0.3.1
+        with:
+          keep: 5
+          names: |
+            de.codemakers.codemakers4j-core
+            de.codemakers.codemakers4j-database
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/libs/*.jar,dist/*.jar"
+          bodyFile: "CHANGELOG.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
