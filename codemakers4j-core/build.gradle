@@ -1,5 +1,5 @@
 group 'de.codemakers'
-version = '0.20.9'
+version = '0.20.10'
 
 dependencies {
     // https://mvnrepository.com/artifact/com.j256.simplemagic/simplemagic
