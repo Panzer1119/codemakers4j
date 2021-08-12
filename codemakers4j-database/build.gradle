@@ -11,12 +11,12 @@ dependencies {
     implementation group: 'org.hibernate.orm', name: 'hibernate-envers', version: '6.0.0.Alpha8'
     // JDBC
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
+    api group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.23'
+    api group: 'org.postgresql', name: 'postgresql', version: '42.2.23'
     // MinIO
     // https://mvnrepository.com/artifact/io.minio/minio
-    implementation group: 'io.minio', name: 'minio', version: '8.3.0'
+    api group: 'io.minio', name: 'minio', version: '8.3.0'
     // Jackson
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.4'

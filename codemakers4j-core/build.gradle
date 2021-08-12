@@ -3,11 +3,11 @@ version = '0.20.8'
 
 dependencies {
     // https://mvnrepository.com/artifact/com.j256.simplemagic/simplemagic
-    implementation group: 'com.j256.simplemagic', name: 'simplemagic', version: '1.16'
-    implementation "org.reflections:reflections:0.9.12"
-    implementation 'net.openhft:zero-allocation-hashing:0.15'
+    api group: 'com.j256.simplemagic', name: 'simplemagic', version: '1.16'
+    api "org.reflections:reflections:0.9.12"
+    api 'net.openhft:zero-allocation-hashing:0.15'
+    api 'at.favre.lib:hkdf:1.1.0'
     implementation group: 'org.lz4', name: 'lz4-java', version: '1.8.0'
-    implementation 'at.favre.lib:hkdf:1.1.0'
 }
 
 publishing {
