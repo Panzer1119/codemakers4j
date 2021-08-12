@@ -3,17 +3,12 @@ version = '0.20.9'
 
 dependencies {
     // CJP
-    implementation project(":codemakers4j-core")
+    api project(":codemakers4j-core")
     // Hibernate
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
-    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha8'
+    api group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha9'
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-envers
-    implementation group: 'org.hibernate.orm', name: 'hibernate-envers', version: '6.0.0.Alpha8'
-    // JDBC
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    api group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
-    // https://mvnrepository.com/artifact/org.postgresql/postgresql
-    api group: 'org.postgresql', name: 'postgresql', version: '42.2.23'
+    api group: 'org.hibernate.orm', name: 'hibernate-envers', version: '6.0.0.Alpha9'
     // MinIO
     // https://mvnrepository.com/artifact/io.minio/minio
     api group: 'io.minio', name: 'minio', version: '8.3.0'
