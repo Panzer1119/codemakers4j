@@ -37,6 +37,11 @@ public class SecureHashUtil {
     public static final String ALGORITHM_SHA384 = "SHA-384";
     public static final String ALGORITHM_SHA512 = "SHA-512";
     
+    public static final byte[] EMPTY_SHA1 = hashSHA1(new byte[0]);
+    public static final byte[] EMPTY_SHA256 = hashSHA1(new byte[0]);
+    public static final byte[] EMPTY_SHA384 = hashSHA1(new byte[0]);
+    public static final byte[] EMPTY_SHA512 = hashSHA1(new byte[0]);
+    
     private static final MessageDigest SHA1 = createSHA1();
     private static final MessageDigest SHA256 = createSHA256();
     private static final MessageDigest SHA384 = createSHA384();
