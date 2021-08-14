@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.20.11](https://github.com/Panzer1119/codemakers4j/compare/v0.20.10...v0.20.11) (2021-08-14)
+
+
+### Features
+
+* add some empty hash values to SecureHashUtil.java ([02f81f3](https://github.com/Panzer1119/codemakers4j/commit/02f81f3ae5a4d8ae64003555357da79fff66ca47))
+
 ### [0.20.10](https://github.com/Panzer1119/codemakers4j/compare/v0.20.9...v0.20.10) (2021-08-12)
 
 ### [0.20.9](https://github.com/Panzer1119/codemakers4j/compare/v0.20.8...v0.20.9) (2021-08-12)
