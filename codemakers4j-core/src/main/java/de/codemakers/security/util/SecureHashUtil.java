@@ -32,66 +32,66 @@ public class SecureHashUtil {
     public static final String ALGORITHM_SHA384withRSA = "SHA384withRSA";
     public static final String ALGORITHM_SHA512withRSA = "SHA512withRSA";
     public static final String ALGORITHM_SHA256withECDSA = "SHA256withECDSA";
-    public static final String ALGORITHM_SHA_1 = "SHA-1";
-    public static final String ALGORITHM_SHA_256 = "SHA-256";
-    public static final String ALGORITHM_SHA_384 = "SHA-384";
-    public static final String ALGORITHM_SHA_512 = "SHA-512";
+    public static final String ALGORITHM_SHA1 = "SHA-1";
+    public static final String ALGORITHM_SHA256 = "SHA-256";
+    public static final String ALGORITHM_SHA384 = "SHA-384";
+    public static final String ALGORITHM_SHA512 = "SHA-512";
     
-    private static final MessageDigest SHA_1 = createSHA_1();
-    private static final MessageDigest SHA_256 = createSHA_256();
-    private static final MessageDigest SHA_384 = createSHA_384();
-    private static final MessageDigest SHA_512 = createSHA_512();
+    private static final MessageDigest SHA1 = createSHA1();
+    private static final MessageDigest SHA256 = createSHA256();
+    private static final MessageDigest SHA384 = createSHA384();
+    private static final MessageDigest SHA512 = createSHA512();
     
-    public static MessageDigest createSHA_1() {
+    public static MessageDigest createSHA1() {
         try {
-            return MessageDigest.getInstance(ALGORITHM_SHA_1);
+            return MessageDigest.getInstance(ALGORITHM_SHA1);
         } catch (Exception ex) {
             logger.error(ex);
             return null;
         }
     }
     
-    public static MessageDigest createSHA_256() {
+    public static MessageDigest createSHA256() {
         try {
-            return MessageDigest.getInstance(ALGORITHM_SHA_256);
+            return MessageDigest.getInstance(ALGORITHM_SHA256);
         } catch (Exception ex) {
             logger.error(ex);
             return null;
         }
     }
     
-    public static MessageDigest createSHA_384() {
+    public static MessageDigest createSHA384() {
         try {
-            return MessageDigest.getInstance(ALGORITHM_SHA_384);
+            return MessageDigest.getInstance(ALGORITHM_SHA384);
         } catch (Exception ex) {
             logger.error(ex);
             return null;
         }
     }
     
-    public static MessageDigest createSHA_512() {
+    public static MessageDigest createSHA512() {
         try {
-            return MessageDigest.getInstance(ALGORITHM_SHA_512);
+            return MessageDigest.getInstance(ALGORITHM_SHA512);
         } catch (Exception ex) {
             logger.error(ex);
             return null;
         }
     }
     
-    public static Hasher createHasher20SHA_1() {
-        return fromMessageDigest(createSHA_1());
+    public static Hasher createHasher20SHA1() {
+        return fromMessageDigest(createSHA1());
     }
     
-    public static Hasher createHasher32SHA_256() {
-        return fromMessageDigest(createSHA_256());
+    public static Hasher createHasher32SHA256() {
+        return fromMessageDigest(createSHA256());
     }
     
-    public static Hasher createHasher48SHA_384() {
-        return fromMessageDigest(createSHA_384());
+    public static Hasher createHasher48SHA384() {
+        return fromMessageDigest(createSHA384());
     }
     
-    public static Hasher createHasher64SHA_512() {
-        return fromMessageDigest(createSHA_512());
+    public static Hasher createHasher64SHA512() {
+        return fromMessageDigest(createSHA512());
     }
     
     public static Hasher fromMessageDigest(final MessageDigest messageDigest) {
@@ -124,64 +124,64 @@ public class SecureHashUtil {
         };
     }
     
-    public static byte[] hashSHA_1(byte[] data) {
+    public static byte[] hashSHA1(byte[] data) {
         if (data == null) {
             return null;
         }
-        SHA_1.reset();
-        return SHA_1.digest(data);
+        SHA1.reset();
+        return SHA1.digest(data);
     }
     
-    public static byte[] hashSHA_256(byte[] data) {
+    public static byte[] hashSHA256(byte[] data) {
         if (data == null) {
             return null;
         }
-        SHA_256.reset();
-        return SHA_256.digest(data);
+        SHA256.reset();
+        return SHA256.digest(data);
     }
     
-    public static byte[] hashSHA_384(byte[] data) {
+    public static byte[] hashSHA384(byte[] data) {
         if (data == null) {
             return null;
         }
-        SHA_384.reset();
-        return SHA_384.digest(data);
+        SHA384.reset();
+        return SHA384.digest(data);
     }
     
-    public static byte[] hashSHA_512(byte[] data) {
+    public static byte[] hashSHA512(byte[] data) {
         if (data == null) {
             return null;
         }
-        SHA_512.reset();
-        return SHA_512.digest(data);
+        SHA512.reset();
+        return SHA512.digest(data);
     }
     
-    public static boolean isDataValidSHA_1(byte[] data, byte[] hash) {
+    public static boolean isDataValidSHA1(byte[] data, byte[] hash) {
         if (hash == null || data == null) {
             return hash == data;
         }
-        return Arrays.equals(hashSHA_1(data), hash);
+        return Arrays.equals(hashSHA1(data), hash);
     }
     
-    public static boolean isDataValidSHA_256(byte[] data, byte[] hash) {
+    public static boolean isDataValidSHA256(byte[] data, byte[] hash) {
         if (hash == null || data == null) {
             return hash == data;
         }
-        return Arrays.equals(hashSHA_256(data), hash);
+        return Arrays.equals(hashSHA256(data), hash);
     }
     
-    public static boolean isDataValidSHA_384(byte[] data, byte[] hash) {
+    public static boolean isDataValidSHA384(byte[] data, byte[] hash) {
         if (hash == null || data == null) {
             return hash == data;
         }
-        return Arrays.equals(hashSHA_384(data), hash);
+        return Arrays.equals(hashSHA384(data), hash);
     }
     
-    public static boolean isDataValidSHA_512(byte[] data, byte[] hash) {
+    public static boolean isDataValidSHA512(byte[] data, byte[] hash) {
         if (hash == null || data == null) {
             return hash == data;
         }
-        return Arrays.equals(hashSHA_512(data), hash);
+        return Arrays.equals(hashSHA512(data), hash);
     }
     
 }

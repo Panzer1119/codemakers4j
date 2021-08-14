@@ -68,11 +68,11 @@ public class IncrementalData extends Data implements Version {
         if (!forceIncrement && (deltaData instanceof HashedDeltaData)) {
             final HashedDeltaData hashedDeltaData = (HashedDeltaData) deltaData;
             if (hashedDeltaData.getHashLength() == HashedDeltaData.HASH_LENGTH_SHA_256) {
-                if (!SecureHashUtil.isDataValidSHA_256(data_new, hashedDeltaData.getHash())) { //FIXME Hardcoded hash length
+                if (!SecureHashUtil.isDataValidSHA256(data_new, hashedDeltaData.getHash())) { //FIXME Hardcoded hash length
                     throw new IllegalArgumentException("The hash of the new data is not equal to the given hash");
                 }
             } else if (hashedDeltaData.getHashLength() == HashedDeltaData.HASH_LENGTH_SHA_512) {
-                if (!SecureHashUtil.isDataValidSHA_512(data_new, hashedDeltaData.getHash())) { //FIXME Hardcoded hash length
+                if (!SecureHashUtil.isDataValidSHA512(data_new, hashedDeltaData.getHash())) { //FIXME Hardcoded hash length
                     throw new IllegalArgumentException("The hash of the new data is not equal to the given hash");
                 }
             }

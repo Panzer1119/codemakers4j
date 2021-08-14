@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AdvancedFileMonitor extends AbstractMonitor implements AdvancedFileChangeListener {
     
-    protected static final ToughSupplier<Hasher> DEFAULT_HASHER_TOUGH_SUPPLIER = () -> SecureHashUtil.createHasher20SHA_1();
+    protected static final ToughSupplier<Hasher> DEFAULT_HASHER_TOUGH_SUPPLIER = SecureHashUtil::createHasher20SHA1;
     protected static final Map<String, byte[]> HASHES = new ConcurrentHashMap<>();
     
     protected final AtomicBoolean running = new AtomicBoolean(false);
