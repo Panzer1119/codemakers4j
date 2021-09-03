@@ -25,10 +25,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileUtil {
     
     public static final ContentInfoUtil CONTENT_INFO_UTIL = new ContentInfoUtil();
+    
+    public static final Pattern PATTERN_INVALID_FILENAME_WINDOWS = Pattern.compile("[<>:\"/|?*]");
     
     private static final Logger logger = LogManager.getLogger(FileUtil.class);
     
@@ -61,6 +65,17 @@ public class FileUtil {
     
     public static Optional<ContentInfo> findMatch(byte[] bytes) {
         return Optional.ofNullable(CONTENT_INFO_UTIL.findMatch(bytes));
+    }
+    
+    public static String toValidFilename(String filename) {
+        return toValidFilename(filename, "");
+    }
+    
+    public static String toValidFilename(String filename, String replacement) {
+        if (filename == null) {
+            return null;
+        }
+        return PATTERN_INVALID_FILENAME_WINDOWS.matcher(filename).replaceAll(Matcher.quoteReplacement(replacement));
     }
     
 }
