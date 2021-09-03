@@ -62,8 +62,8 @@ public class MinIOConnector extends ObjectStorageConnector<MinioClient, InputStr
     @Override
     public Optional<InputStream> readObject(String bucket, String object) {
         checkParameter(bucket, object);
-        try (final GetObjectResponse response = connector.getObject(GetObjectArgs.builder().bucket(bucket).object(object).build())) {
-            return Optional.ofNullable(response);
+        try {
+            return Optional.ofNullable(connector.getObject(GetObjectArgs.builder().bucket(bucket).object(object).build()));
         } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException | NoSuchAlgorithmException | ServerException | XmlParserException e) {
             logger.error(String.format("Error while getting \"%s\" from \"%s\"", object, bucket), e);
             return Optional.empty();
@@ -74,7 +74,12 @@ public class MinIOConnector extends ObjectStorageConnector<MinioClient, InputStr
     public <R> Optional<R> readObject(String bucket, String object, ToughFunction<InputStream, R> converter) {
         checkParameter(bucket, object);
         Objects.requireNonNull(converter, "converter may not be null");
-        return readObject(bucket, object).map(converter::applyWithoutException);
+        try (final GetObjectResponse response = connector.getObject(GetObjectArgs.builder().bucket(bucket).object(object).build())) {
+            return Optional.ofNullable(response).map(converter::applyWithoutException);
+        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException | NoSuchAlgorithmException | ServerException | XmlParserException e) {
+            logger.error(String.format("Error while getting \"%s\" from \"%s\"", object, bucket), e);
+            return Optional.empty();
+        }
     }
     
     @Override
