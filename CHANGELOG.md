@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.20.12](https://github.com/Panzer1119/codemakers4j/compare/v0.20.11...v0.20.12) (2021-09-03)
+
+
+### Features
+
+* add toValidFilename method to FileUtil.java ([69489b5](https://github.com/Panzer1119/codemakers4j/commit/69489b5224bafd049db2e8c518256f6b0af6caf0))
+
 ### [0.20.11](https://github.com/Panzer1119/codemakers4j/compare/v0.20.10...v0.20.11) (2021-08-14)
 
 
