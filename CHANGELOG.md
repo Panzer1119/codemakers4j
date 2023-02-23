@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.21.0](https://github.com/Panzer1119/codemakers4j/compare/v0.20.13...v0.21.0) (2023-02-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **database:** remove custom jsonb type
+* **database:** use JpaRoot instead of Root
+
+### Bug Fixes
+
+* **database:** remove custom jsonb type ([5437a3b](https://github.com/Panzer1119/codemakers4j/commit/5437a3bb7cfefcfd80ed39d0748d050ca6523bc7))
+* **database:** use JpaRoot instead of Root ([c7af396](https://github.com/Panzer1119/codemakers4j/commit/c7af3969d8629959e97a47ae03bcf6acd7d94971))
+
 ### [0.20.13](https://github.com/Panzer1119/codemakers4j/compare/v0.20.12...v0.20.13) (2021-09-03)
 
 
