@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Properties;
 
 public class HibernatePropertiesTest {
-    
+
     private static final Logger logger = LogManager.getLogger(HibernatePropertiesTest.class);
-    
+
     @Test
     void test() {
         final HibernateProperties hibernateProperties = HibernateProperties.createPostgreSQLTemplate();
@@ -36,7 +36,7 @@ public class HibernatePropertiesTest {
         hibernateProperties.setUsername("TEST-USER");
         hibernateProperties.setPassword("TEST-PASS");
         final Properties properties = hibernateProperties.create();
-        Assertions.assertEquals("de.codemakers.database.dialects.JsonBPostgreSQLDialect", properties.getProperty("hibernate.dialect"));
+        Assertions.assertEquals("org.hibernate.dialect.PostgreSQLDialect", properties.getProperty("hibernate.dialect"));
         Assertions.assertEquals("audit_log_", properties.getProperty("org.hibernate.envers.audit_table_prefix"));
         Assertions.assertEquals("", properties.getProperty("org.hibernate.envers.audit_table_suffix"));
         Assertions.assertEquals("jdbc:postgresql://TEST-HOST:1337/TEST-DB", properties.getProperty("hibernate.connection.url"));
@@ -44,5 +44,5 @@ public class HibernatePropertiesTest {
         Assertions.assertEquals("TEST-USER", properties.getProperty("hibernate.connection.username"));
         Assertions.assertEquals("5432", properties.getProperty("default.port"));
     }
-    
+
 }
