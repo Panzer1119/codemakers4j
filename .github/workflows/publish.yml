@@ -39,13 +39,6 @@ jobs:
           MAVEN_URL_SNAPSHOTS: ${{ secrets.MAVEN_URL_SNAPSHOTS }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-      - name: Delete the oldest Packages on GitHub, but keep at least 5 Versions
-        uses: smartsquaregmbh/delete-old-packages@v0.3.1
-        with:
-          keep: 5
-          names: |
-            de.codemakers.codemakers4j-core
-            de.codemakers.codemakers4j-database
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
