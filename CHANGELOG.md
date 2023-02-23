@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.21.2](https://github.com/Panzer1119/codemakers4j/compare/v0.21.1...v0.21.2) (2023-02-23)
+
+
+### Bug Fixes
+
+* **database:** use PostgreSQLDialect dialect in hibernate-postgresql.properties ([012d1e6](https://github.com/Panzer1119/codemakers4j/commit/012d1e687b5a6a0f01877b260693132dda1ef90a))
+
 ### [0.21.1](https://github.com/Panzer1119/codemakers4j/compare/v0.21.0...v0.21.1) (2023-02-23)
 
 
