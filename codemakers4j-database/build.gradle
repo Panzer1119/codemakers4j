@@ -6,9 +6,9 @@ dependencies {
     api project(":codemakers4j-core")
     // Hibernate
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
-    api group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.0.0.Alpha9'
+    api group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.2.0.CR2'
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-envers
-    api group: 'org.hibernate.orm', name: 'hibernate-envers', version: '6.0.0.Alpha9'
+    api group: 'org.hibernate.orm', name: 'hibernate-envers', version: '6.2.0.CR2'
     // MinIO
     // https://mvnrepository.com/artifact/io.minio/minio
     api group: 'io.minio', name: 'minio', version: '8.3.0'
