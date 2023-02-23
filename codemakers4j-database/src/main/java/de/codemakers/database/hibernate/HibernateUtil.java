@@ -33,8 +33,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
+import org.hibernate.query.criteria.JpaRoot;
 
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -42,24 +42,24 @@ import java.util.Properties;
 import java.util.function.Function;
 
 public class HibernateUtil {
-    
+
     private static final Logger logger = LogManager.getLogger(HibernateUtil.class);
-    
+
     private HibernateUtil() {
     }
-    
+
     public static StandardServiceRegistryBuilder createStandardServiceRegistryBuilder(Properties properties) {
         Objects.requireNonNull(properties);
         final StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
         standardServiceRegistryBuilder.applySettings(properties);
         return standardServiceRegistryBuilder;
     }
-    
+
     public static StandardServiceRegistry createStandardServiceRegistry(StandardServiceRegistryBuilder builder) {
         Objects.requireNonNull(builder);
         return builder.build();
     }
-    
+
     public static MetadataSources createMetadataSources(StandardServiceRegistry registry, Class<?>[] annotatedClasses) {
         Objects.requireNonNull(registry);
         Objects.requireNonNull(annotatedClasses);
@@ -69,21 +69,21 @@ public class HibernateUtil {
         }
         return metadataSources;
     }
-    
+
     public static Metadata createMetadata(MetadataSources metadataSources) {
         Objects.requireNonNull(metadataSources);
         return metadataSources.buildMetadata();
     }
-    
+
     public static SessionFactory createSessionFactory(Metadata metadata) {
         Objects.requireNonNull(metadata);
         return metadata.buildSessionFactory();
     }
-    
+
     public static void useSession(DatabaseConnector databaseConnector, ToughConsumer<Session> sessionConsumer) {
         useSession(databaseConnector, sessionConsumer, false);
     }
-    
+
     public static void useSession(DatabaseConnector databaseConnector, ToughConsumer<Session> sessionConsumer, boolean silent) {
         Objects.requireNonNull(databaseConnector);
         Objects.requireNonNull(sessionConsumer);
@@ -106,11 +106,11 @@ public class HibernateUtil {
             }
         }
     }
-    
+
     public static <R> Optional<R> processSession(DatabaseConnector databaseConnector, ToughFunction<Session, R> sessionFunction) {
         return processSession(databaseConnector, sessionFunction, false);
     }
-    
+
     public static <R> Optional<R> processSession(DatabaseConnector databaseConnector, ToughFunction<Session, R> sessionFunction, boolean silent) {
         Objects.requireNonNull(databaseConnector);
         Objects.requireNonNull(sessionFunction);
@@ -135,20 +135,20 @@ public class HibernateUtil {
             return Optional.empty();
         }
     }
-    
-    public static <T> Optional<T> processCriteriaQuerySingleResult(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, Root<T>> triConsumer) {
+
+    public static <T> Optional<T> processCriteriaQuerySingleResult(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, JpaRoot<T>> triConsumer) {
         return processCriteriaQuery(databaseConnector, clazz, triConsumer, Query::getSingleResult);
     }
-    
-    public static <T> Optional<List<T>> processCriteriaQuery(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, Root<T>> triConsumer) {
+
+    public static <T> Optional<List<T>> processCriteriaQuery(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, JpaRoot<T>> triConsumer) {
         return processCriteriaQuery(databaseConnector, clazz, triConsumer, Query::getResultList);
     }
-    
-    public static <T, R> Optional<R> processCriteriaQuery(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, Root<T>> triConsumer, Function<Query<T>, R> resultMapper) {
+
+    public static <T, R> Optional<R> processCriteriaQuery(DatabaseConnector databaseConnector, Class<T> clazz, ToughTriConsumer<HibernateCriteriaBuilder, JpaCriteriaQuery<T>, JpaRoot<T>> triConsumer, Function<Query<T>, R> resultMapper) {
         return processSession(databaseConnector, session -> {
             final HibernateCriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             final JpaCriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
-            final Root<T> root = criteriaQuery.from(clazz);
+            final JpaRoot<T> root = criteriaQuery.from(clazz);
             criteriaQuery.select(root);
             if (triConsumer != null) {
                 triConsumer.accept(criteriaBuilder, criteriaQuery, root);
@@ -156,37 +156,37 @@ public class HibernateUtil {
             return resultMapper.apply(session.createQuery(criteriaQuery));
         });
     }
-    
+
     public static <T> Optional<T> get(DatabaseConnector databaseConnector, Class<T> clazz, Object id) {
         return processSession(databaseConnector, session -> session.get(clazz, id));
     }
-    
+
     public static <T> Optional<List<T>> getAll(DatabaseConnector databaseConnector, Class<T> clazz) {
         return processCriteriaQuery(databaseConnector, clazz, null);
     }
-    
+
     public static <T> Optional<T> getWhere(DatabaseConnector databaseConnector, Class<T> clazz, String column, String value) {
         return processCriteriaQuerySingleResult(databaseConnector, clazz, (criteriaBuilder, criteriaQuery, root) -> criteriaQuery.where(criteriaBuilder
                 .equal(root.get(column), value)));
     }
-    
+
     public static <T> Optional<List<T>> getAllWhere(DatabaseConnector databaseConnector, Class<T> clazz, String column, String value) {
         return processCriteriaQuery(databaseConnector, clazz, (criteriaBuilder, criteriaQuery, root) -> criteriaQuery.where(criteriaBuilder.equal(root
                 .get(column), value)));
     }
-    
+
     public static boolean add(DatabaseConnector databaseConnector, Object object) {
         return processSession(databaseConnector, session -> session.save(object)).isPresent();
     }
-    
+
     public static boolean add(DatabaseConnector databaseConnector, Object object, boolean silent) {
         return processSession(databaseConnector, session -> session.save(object), silent).isPresent();
     }
-    
+
     public static void set(DatabaseConnector databaseConnector, Object object) {
         useSession(databaseConnector, session -> session.update(object));
     }
-    
+
     /**
      * Either save(Object) or update(Object) the given instance, depending upon resolution of the unsaved-value checks (see the manual for discussion of unsaved-value checking).
      *
@@ -195,23 +195,23 @@ public class HibernateUtil {
     public static void addOrSet(DatabaseConnector databaseConnector, Object object) {
         useSession(databaseConnector, session -> session.saveOrUpdate(object));
     }
-    
+
     public static void delete(DatabaseConnector databaseConnector, Object object) {
         useSession(databaseConnector, session -> session.delete(object));
     }
-    
+
     public static synchronized <I, T extends IEntity<I, T>> Optional<T> addOrUpgradeById(DatabaseConnector databaseConnector, T entity, Function<I, Optional<T>> entityGetterFunction) {
         return addOrUpgradeById(databaseConnector, entity, entityGetterFunction, null);
     }
-    
+
     public static synchronized <I, T extends IEntity<I, T>> Optional<T> addOrUpgradeById(DatabaseConnector databaseConnector, T entity, Function<I, Optional<T>> entityGetterFunction, Class<I> idClazz) {
         return addOrUpgradeById(databaseConnector, entity, entityGetterFunction, idClazz, IEntity::getId);
     }
-    
+
     public static synchronized <I, T extends IEntity<I, T>> Optional<T> addOrUpgradeById(DatabaseConnector databaseConnector, T entity, Function<I, Optional<T>> entityGetterFunction, Class<I> idClazz, Function<T, I> idGetterFunction) {
         return addOrUpgrade(databaseConnector, entity, entityGetterFunction, idGetterFunction, idClazz);
     }
-    
+
     public static synchronized <I, M, T extends IEntity<I, T>> Optional<T> addOrUpgrade(DatabaseConnector databaseConnector, T entity, Function<M, Optional<T>> entityGetterFunction, Function<T, M> middleGetterFunction, Class<M> middleClazz) {
         Objects.requireNonNull(entity, "entity may not be null");
         Objects.requireNonNull(entityGetterFunction, "entityGetterFunction may not be null");
@@ -231,5 +231,5 @@ public class HibernateUtil {
         Objects.requireNonNull(m3, "m3 may not be null");
         return existingEntity;
     }
-    
+
 }
