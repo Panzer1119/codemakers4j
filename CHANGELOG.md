@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.21.1](https://github.com/Panzer1119/codemakers4j/compare/v0.21.0...v0.21.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* **database:** getSubstitutions in HibernateProperties.java to return substitutions ([3f9f196](https://github.com/Panzer1119/codemakers4j/commit/3f9f196f6fcff70b4ca63e2e0e3a9cbc08c764ec))
+
 ## [0.21.0](https://github.com/Panzer1119/codemakers4j/compare/v0.20.13...v0.21.0) (2023-02-23)
 
 
